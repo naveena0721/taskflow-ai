@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Reports</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Poppins',sans-serif;
+        }
+
+        body{
+            background:#f6f3ff;
+            display:flex;
+            overflow-x:hidden;
+        }
+
+        /* SIDEBAR */
+
+        .sidebar{
+            width:260px;
+            height:100vh;
+            position:fixed;
+            left:0;
+            top:0;
+            background:linear-gradient(180deg,#4b0082,#1d0033);
+            padding:35px 20px;
+            overflow-y:auto;
+            overflow-x:hidden;
+        }
+
+        .sidebar::-webkit-scrollbar{
+            width:6px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb{
+            background:#ff7bff;
+            border-radius:20px;
+        }
+
+        .logo{
+            color:white;
+            font-size:38px;
+            font-weight:700;
+            margin-bottom:50px;
+            line-height:1.2;
+        }
+
+        .sidebar a{
+            display:flex;
+            align-items:center;
+            gap:15px;
+            color:white;
+            text-decoration:none;
+            padding:18px 20px;
+            border-radius:18px;
+            margin-bottom:15px;
+            font-size:20px;
+            transition:0.3s;
+        }
+
+        .sidebar a:hover,
+        .sidebar .active{
+            background:linear-gradient(90deg,#ff7bff,#7b00ff);
+        }
+
+        /* MAIN */
+
+        .main{
+            margin-left:260px;
+            width:calc(100% - 260px);
+            padding:40px;
+            min-height:100vh;
+        }
+
+        /* TOP SECTION */
+
+        .top-section{
+            display:grid;
+            grid-template-columns:2fr 1fr;
+            gap:30px;
+            margin-bottom:35px;
+        }
+
+        .hero{
+            background:linear-gradient(135deg,#6a00ff,#ff66d9);
+            border-radius:35px;
+            padding:45px;
+            color:white;
+            position:relative;
+            overflow:hidden;
+        }
+
+        .hero h1{
+            font-size:60px;
+            margin-bottom:15px;
+        }
+
+        .hero p{
+            font-size:22px;
+            opacity:0.9;
+        }
+
+        .hero-icon{
+            position:absolute;
+            right:40px;
+            top:40px;
+            width:110px;
+            height:110px;
+            border-radius:28px;
+            background:rgba(255,255,255,0.18);
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            font-size:50px;
+        }
+
+        /* SCORE CARD */
+
+        .score-card{
+            background:white;
+            border-radius:35px;
+            padding:35px;
+            box-shadow:0 10px 25px rgba(0,0,0,0.06);
+        }
+
+        .score-card h2{
+            color:#240046;
+            margin-bottom:30px;
+            font-size:34px;
+        }
+
+        .circle{
+    width:180px;
+    height:180px;
+    margin:auto;
+    border-radius:50%;
+    background:conic-gradient(
+        #7b00ff 0%,
+        #ff66d9 70%,
+        #ececec 70%
+    );
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+        .circle-inner{
+            width:130px;
+            height:130px;
+            border-radius:50%;
+            background:white;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            flex-direction:column;
+        }
+
+        .circle-inner h1{
+            color:#240046;
+            font-size:42px;
+        }
+
+        .circle-inner p{
+            color:#777;
+        }
+
+        /* STATS */
+
+        .stats{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+            gap:25px;
+            margin-bottom:35px;
+        }
+
+        .stat-card{
+            background:white;
+            padding:30px;
+            border-radius:30px;
+            box-shadow:0 10px 25px rgba(0,0,0,0.05);
+            position:relative;
+            overflow:hidden;
+        }
+
+        .stat-card h5{
+            color:#666;
+            margin-bottom:15px;
+            font-size:18px;
+        }
+
+        .stat-card h1{
+            font-size:50px;
+            color:#240046;
+        }
+
+        .stat-icon{
+            position:absolute;
+            right:25px;
+            top:25px;
+            width:70px;
+            height:70px;
+            border-radius:22px;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            color:white;
+            font-size:28px;
+        }
+
+        .purple{
+            background:linear-gradient(135deg,#ff7bff,#7b00ff);
+        }
+
+        .green{
+            background:#2ecc71;
+        }
+
+        .orange{
+            background:#f39c12;
+        }
+
+        /* REPORT TABLE */
+
+        .report-table{
+            background:white;
+            border-radius:35px;
+            padding:35px;
+            box-shadow:0 10px 25px rgba(0,0,0,0.05);
+        }
+
+        .report-table h2{
+            color:#240046;
+            font-size:40px;
+            margin-bottom:30px;
+        }
+
+        table{
+            width:100%;
+            border-collapse:collapse;
+        }
+
+        th{
+            text-align:left;
+            padding:18px;
+            font-size:20px;
+            color:#240046;
+            border-bottom:2px solid #eee;
+        }
+
+        td{
+            padding:20px 18px;
+            border-bottom:1px solid #eee;
+            font-size:18px;
+        }
+
+        .badge{
+            padding:10px 22px;
+            border-radius:30px;
+            color:white;
+            font-size:14px;
+            font-weight:600;
+        }
+
+        .completed{
+            background:#2ecc71;
+        }
+
+        .pending{
+            background:#f39c12;
+        }
+
+        /* RESPONSIVE */
+
+        @media(max-width:1000px){
+
+            .top-section{
+                grid-template-columns:1fr;
+            }
+
+        }
+
+        @media(max-width:800px){
+
+            .sidebar{
+                width:90px;
+                overflow-y:auto;
+            }
+
+            .sidebar .logo{
+                font-size:18px;
+            }
+
+            .sidebar a{
+                justify-content:center;
+                font-size:0;
+            }
+
+            .sidebar a i{
+                font-size:20px;
+            }
+
+            .main{
+                margin-left:90px;
+                width:calc(100% - 90px);
+                padding:20px;
+            }
+
+            .hero h1{
+                font-size:42px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+
+    <div class="sidebar">
+
+        <div class="logo">
+            Task System
+        </div>
+
+        <a href="/dashboard">
+            <i class="fa-solid fa-house"></i>
+            Dashboard
+        </a>
+
+        <a href="/tasks">
+            <i class="fa-solid fa-list-check"></i>
+            Tasks
+        </a>
+
+        <a href="/add_task">
+            <i class="fa-solid fa-plus"></i>
+            Add Task
+        </a>
+
+        <a href="/completed">
+            <i class="fa-solid fa-circle-check"></i>
+            Completed
+        </a>
+
+        <a href="/kanban">
+            <i class="fa-solid fa-table-columns"></i>
+            Kanban Board
+        </a>
+
+        <a href="/calendar">
+            <i class="fa-solid fa-calendar"></i>
+            Calendar
+        </a>
+
+        <a href="/reports" class="active">
+            <i class="fa-solid fa-chart-pie"></i>
+            Reports
+        </a>
+
+        <a href="/profile">
+            <i class="fa-solid fa-user"></i>
+            Profile
+        </a>
+
+        <a href="/logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            Logout
+        </a>
+
+    </div>
+
+    <!-- MAIN -->
+
+    <div class="main">
+
+        <!-- TOP -->
+
+        <div class="top-section">
+
+            <div class="hero">
+
+                <h1>Reports & Analytics</h1>
+
+                <p>
+                    Analyze your productivity and monitor task performance professionally
+                </p>
+
+                <div class="hero-icon">
+                    <i class="fa-solid fa-chart-simple"></i>
+                </div>
+
+            </div>
+
+            <div class="score-card">
+
+                <h2>Productivity</h2>
+
+                <div class="circle">
+
+                    <div class="circle-inner">
+
+                        <h1>{{ productivity }}%</h1>
+
+                        <p>Efficiency</p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- STATS -->
+
+        <div class="stats">
+
+            <div class="stat-card">
+
+                <h5>Total Tasks</h5>
+
+                <h1>{{ total_tasks }}</h1>
+
+                <div class="stat-icon purple">
+                    <i class="fa-solid fa-list-check"></i>
+                </div>
+
+            </div>
+
+            <div class="stat-card">
+
+                <h5>Completed Tasks</h5>
+
+                <h1>{{ completed_tasks }}</h1>
+
+                <div class="stat-icon green">
+                    <i class="fa-solid fa-check"></i>
+                </div>
+
+            </div>
+
+            <div class="stat-card">
+
+                <h5>Pending Tasks</h5>
+
+                <h1>{{ pending_tasks }}</h1>
+
+                <div class="stat-icon orange">
+                    <i class="fa-solid fa-clock"></i>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- REPORT TABLE -->
+
+        <div class="report-table">
+
+            <h2>Task Summary Report</h2>
+
+            <table>
+
+                <tr>
+
+                    <th>Category</th>
+                    <th>Total</th>
+                    <th>Status</th>
+
+                </tr>
+
+                <tr>
+
+                    <td>Completed Tasks</td>
+
+                    <td>{{ completed_tasks }}</td>
+
+                    <td>
+                        <span class="badge completed">
+                            Completed
+                        </span>
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td>Pending Tasks</td>
+
+                    <td>{{ pending_tasks }}</td>
+
+                    <td>
+                        <span class="badge pending">
+                            Pending
+                        </span>
+                    </td>
+
+                </tr>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

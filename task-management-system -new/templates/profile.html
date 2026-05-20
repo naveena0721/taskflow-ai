@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Profile</title>
+
+    <!-- GOOGLE FONT -->
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- FONT AWESOME -->
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Poppins',sans-serif;
+        }
+
+        body{
+
+            background:#f6f3ff;
+
+            display:flex;
+
+            overflow-x:hidden;
+        }
+
+        /* SIDEBAR */
+
+        .sidebar{
+
+            width:260px;
+
+            height:100vh;
+
+            position:fixed;
+
+            left:0;
+
+            top:0;
+
+            background:linear-gradient(180deg,#4b0082,#1d0033);
+
+            padding:35px 20px;
+
+            overflow-y:auto;
+
+            overflow-x:hidden;
+        }
+
+        .sidebar::-webkit-scrollbar{
+
+            width:6px;
+        }
+
+        .sidebar::-webkit-scrollbar-thumb{
+
+            background:#ff7bff;
+
+            border-radius:20px;
+        }
+
+        .logo{
+
+            font-size:38px;
+
+            font-weight:800;
+
+            margin-bottom:50px;
+
+            color:white;
+
+            line-height:1.2;
+        }
+
+        .sidebar a{
+
+            display:flex;
+
+            align-items:center;
+
+            gap:15px;
+
+            padding:16px 18px;
+
+            color:white;
+
+            text-decoration:none;
+
+            border-radius:16px;
+
+            margin-bottom:15px;
+
+            transition:0.3s;
+
+            font-size:18px;
+
+            font-weight:500;
+        }
+
+        .sidebar a:hover,
+        .sidebar a.active{
+
+            background:
+            linear-gradient(
+            90deg,
+            #a100ff,
+            #ff8cfb
+            );
+        }
+
+        /* MAIN */
+
+        .main{
+
+            margin-left:260px;
+
+            width:calc(100% - 260px);
+
+            padding:40px;
+
+            min-height:100vh;
+        }
+
+        /* PROFILE CARD */
+
+        .profile-card{
+
+            max-width:950px;
+
+            margin:auto;
+
+            padding:45px;
+
+            border-radius:35px;
+
+            background:white;
+
+            box-shadow:
+            0 20px 50px rgba(0,0,0,0.12);
+        }
+
+        /* TEXT COLORS */
+
+        .profile-card h1,
+        .profile-card h2,
+        .profile-card h3,
+        .profile-card p,
+        .profile-box label{
+
+            color:#2b004d;
+        }
+
+        /* AVATAR */
+
+        .avatar-section{
+
+            text-align:center;
+
+            margin-bottom:40px;
+        }
+
+        .main-avatar{
+
+            width:140px;
+
+            height:140px;
+
+            border-radius:50%;
+
+            border:6px solid #8b5cf6;
+
+            background:white;
+
+            padding:8px;
+
+            box-shadow:
+            0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .choose-text{
+
+            margin-top:20px;
+
+            margin-bottom:20px;
+
+            font-size:24px;
+
+            font-weight:600;
+        }
+
+        .avatar-grid{
+
+            display:flex;
+
+            justify-content:center;
+
+            gap:18px;
+
+            flex-wrap:wrap;
+        }
+
+        .avatar-grid button{
+
+            border:none;
+
+            background:none;
+
+            cursor:pointer;
+        }
+
+        .avatar-grid img{
+
+            width:70px;
+
+            height:70px;
+
+            border-radius:50%;
+
+            transition:0.3s;
+
+            border:3px solid transparent;
+        }
+
+        .avatar-grid img:hover{
+
+            transform:scale(1.1);
+
+            border-color:#ff8cfb;
+        }
+
+        /* TOP SECTION */
+
+        .top-section{
+
+            text-align:center;
+
+            margin-bottom:45px;
+        }
+
+        .top-section h1{
+
+            font-size:36px;
+
+            margin-bottom:10px;
+        }
+
+        .top-section p{
+
+            color:#666;
+
+            font-size:16px;
+
+            margin-bottom:30px;
+        }
+
+        .edit-btn{
+
+            border:none;
+
+            padding:14px 30px;
+
+            border-radius:14px;
+
+            background:
+            linear-gradient(
+            90deg,
+            #7a00ff,
+            #ff8cfb
+            );
+
+            color:white;
+
+            font-size:16px;
+
+            font-weight:600;
+
+            cursor:pointer;
+
+            transition:0.3s;
+        }
+
+        .edit-btn:hover{
+
+            transform:translateY(-2px);
+        }
+
+        /* FORM */
+
+        .profile-form{
+
+            display:grid;
+
+            grid-template-columns:1fr 1fr;
+
+            gap:25px;
+        }
+
+        .profile-box{
+
+            background:#faf5ff;
+
+            border:1px solid #ead7ff;
+
+            border-radius:20px;
+
+            padding:25px;
+        }
+
+        .profile-box label{
+
+            display:block;
+
+            margin-bottom:15px;
+
+            font-size:15px;
+
+            font-weight:500;
+        }
+
+        .profile-box input{
+
+            width:100%;
+
+            border:none;
+
+            outline:none;
+
+            background:transparent;
+
+            color:#2b004d;
+
+            font-size:22px;
+
+            font-weight:600;
+        }
+
+        .profile-box input::placeholder{
+
+            color:#999;
+        }
+
+        /* SAVE BUTTON */
+
+        .save-btn{
+
+            grid-column:span 2;
+
+            height:60px;
+
+            border:none;
+
+            border-radius:18px;
+
+            background:
+            linear-gradient(
+            90deg,
+            #7a00ff,
+            #ff8cfb
+            );
+
+            color:white;
+
+            font-size:20px;
+
+            font-weight:600;
+
+            cursor:pointer;
+
+            display:none;
+        }
+
+        /* MOBILE */
+
+        @media(max-width:900px){
+
+            .profile-form{
+
+                grid-template-columns:1fr;
+            }
+
+            .save-btn{
+
+                grid-column:span 1;
+            }
+
+            .sidebar{
+
+                width:100px;
+            }
+
+            .sidebar .logo{
+
+                font-size:20px;
+            }
+
+            .sidebar a{
+
+                font-size:14px;
+
+                padding:14px 10px;
+            }
+
+            .main{
+
+                margin-left:100px;
+
+                padding:20px;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+
+    <div class="sidebar">
+
+        <div class="logo">
+            Task System
+        </div>
+
+        <a href="/dashboard">
+            <i class="fa-solid fa-house"></i>
+            Dashboard
+        </a>
+
+        <a href="/tasks">
+            <i class="fa-solid fa-list-check"></i>
+            Tasks
+        </a>
+
+        <a href="/add_task">
+            <i class="fa-solid fa-plus"></i>
+            Add Task
+        </a>
+
+        <a href="/completed">
+            <i class="fa-solid fa-circle-check"></i>
+            Completed
+        </a>
+
+        <a href="/kanban">
+            <i class="fa-solid fa-table-columns"></i>
+            Kanban Board
+        </a>
+
+        <a href="/calendar">
+            <i class="fa-solid fa-calendar"></i>
+            Calendar
+        </a>
+
+        <a href="/reports">
+            <i class="fa-solid fa-chart-simple"></i>
+            Reports
+        </a>
+
+        <a href="/profile" class="active">
+            <i class="fa-solid fa-user"></i>
+            Profile
+        </a>
+
+        <a href="/logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            Logout
+        </a>
+
+    </div>
+
+    <!-- MAIN -->
+
+    <div class="main">
+
+        <div class="profile-card">
+
+            <!-- AVATAR -->
+
+            <div class="avatar-section">
+
+                <img src="{{ avatar }}"
+                    class="main-avatar">
+
+                <h3 class="choose-text">
+                    Choose Your Avatar
+                </h3>
+
+                <form action="/change_avatar"
+                    method="POST">
+
+                    <div class="avatar-grid">
+
+                        <button type="submit"
+                            name="avatar"
+                            value="https://api.dicebear.com/7.x/adventurer/svg?seed=Naveena">
+
+                            <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=Naveena">
+
+                        </button>
+
+                        <button type="submit"
+                            name="avatar"
+                            value="https://api.dicebear.com/7.x/adventurer/svg?seed=Alex">
+
+                            <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=Alex">
+
+                        </button>
+
+                        <button type="submit"
+                            name="avatar"
+                            value="https://api.dicebear.com/7.x/adventurer/svg?seed=Emma">
+
+                            <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=Emma">
+
+                        </button>
+
+                        <button type="submit"
+                            name="avatar"
+                            value="https://api.dicebear.com/7.x/adventurer/svg?seed=Ryan">
+
+                            <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=Ryan">
+
+                        </button>
+
+                        <button type="submit"
+                            name="avatar"
+                            value="https://api.dicebear.com/7.x/adventurer/svg?seed=Sophia">
+
+                            <img src="https://api.dicebear.com/7.x/adventurer/svg?seed=Sophia">
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+            <!-- PROFILE -->
+
+            <div class="top-section">
+
+                <h1>{{ user_name }}</h1>
+
+                <p>
+                    Manage your account settings and profile details
+                </p>
+
+                <button class="edit-btn"
+                    onclick="enableEdit()">
+
+                    <i class="fa-solid fa-pen"></i>
+                    Edit Profile
+
+                </button>
+
+            </div>
+
+            <!-- FORM -->
+
+            <form method="POST"
+                class="profile-form">
+
+                <div class="profile-box">
+
+                    <label>
+                        Full Name & Username
+                    </label>
+
+                    <input type="text"
+                        id="username"
+                        name="username"
+                        value="{{ user_name }}"
+                        readonly>
+
+                </div>
+
+                <div class="profile-box">
+
+                    <label>
+                        Email Address
+                    </label>
+
+                    <input type="email"
+                        value="{{ email }}"
+                        readonly>
+
+                </div>
+
+                <div class="profile-box">
+
+                    <label>
+                        Language Setting
+                    </label>
+
+                    <input type="text"
+                        value="English"
+                        readonly>
+
+                </div>
+
+                <div class="profile-box">
+
+                    <label>
+                        Password Management
+                    </label>
+
+                    <input type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Enter new password"
+                        readonly>
+
+                </div>
+
+                <button type="submit"
+                    class="save-btn"
+                    id="saveBtn">
+
+                    Save Changes
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        function enableEdit(){
+
+            document
+            .getElementById("username")
+            .removeAttribute("readonly");
+
+            document
+            .getElementById("password")
+            .removeAttribute("readonly");
+
+            document
+            .getElementById("saveBtn")
+            .style.display = "block";
+        }
+
+    </script>
+
+</body>
+
+</html>

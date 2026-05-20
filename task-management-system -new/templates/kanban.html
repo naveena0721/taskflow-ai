@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>AI Kanban Board</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Poppins',sans-serif;
+        }
+
+        body{
+
+            min-height:100vh;
+
+            background:#f3eefc;
+
+            padding:30px;
+        }
+
+        h1{
+
+            color:#230046;
+
+            font-size:48px;
+
+            margin-bottom:35px;
+
+            font-weight:700;
+        }
+
+        .board{
+
+            display:grid;
+
+            grid-template-columns:
+            repeat(3,1fr);
+
+            gap:25px;
+        }
+
+        .column{
+
+            background:white;
+
+            border-radius:28px;
+
+            padding:20px;
+
+            min-height:600px;
+
+            box-shadow:
+            0 5px 20px rgba(0,0,0,0.06);
+
+            border:
+            1px solid #eee;
+        }
+
+        .column h2{
+
+            color:#230046;
+
+            margin-bottom:20px;
+
+            font-size:30px;
+
+            text-align:center;
+
+            font-weight:700;
+        }
+
+        .task{
+
+            background:
+            linear-gradient(
+            135deg,
+            #7b00ff,
+            #d96fff
+            );
+
+            border-radius:22px;
+
+            padding:20px;
+
+            margin-bottom:18px;
+
+            cursor:grab;
+
+            transition:0.3s;
+
+            color:white;
+
+            box-shadow:
+            0 6px 18px rgba(123,0,255,0.2);
+        }
+
+        .task:hover{
+
+            transform:translateY(-4px);
+        }
+
+        .task h3{
+
+            font-size:22px;
+
+            margin-bottom:10px;
+        }
+
+        .task p{
+
+            font-size:14px;
+
+            opacity:0.9;
+
+            margin-bottom:14px;
+        }
+
+        .priority{
+
+            display:inline-block;
+
+            padding:8px 16px;
+
+            border-radius:30px;
+
+            font-size:12px;
+
+            font-weight:600;
+
+            background:white;
+
+            color:#7b00ff;
+        }
+
+        .dragging{
+            opacity:0.5;
+        }
+
+        @media(max-width:1100px){
+
+            .board{
+                grid-template-columns:1fr;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <h1>
+        AI Powered Kanban Board
+    </h1>
+
+    <div class="board">
+
+        <!-- PENDING -->
+
+        <div class="column"
+            data-stage="Pending">
+
+            <h2>Pending</h2>
+
+            {% for task in pending_tasks %}
+
+            <div class="task"
+                draggable="true"
+                data-id="{{ task[0] }}">
+
+                <h3>{{ task[1] }}</h3>
+
+                <p>
+                    Due: {{ task[2] }}
+                </p>
+
+                <div class="priority">
+                    {{ task[4] }} Priority
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+        <!-- IN PROGRESS -->
+
+        <div class="column"
+            data-stage="In Progress">
+
+            <h2>In Progress</h2>
+
+            {% for task in progress_tasks %}
+
+            <div class="task"
+                draggable="true"
+                data-id="{{ task[0] }}">
+
+                <h3>{{ task[1] }}</h3>
+
+                <p>
+                    Due: {{ task[2] }}
+                </p>
+
+                <div class="priority">
+                    {{ task[4] }} Priority
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+        <!-- COMPLETED -->
+
+        <div class="column"
+            data-stage="Completed">
+
+            <h2>Completed</h2>
+
+            {% for task in completed_tasks %}
+
+            <div class="task"
+                draggable="true"
+                data-id="{{ task[0] }}">
+
+                <h3>{{ task[1] }}</h3>
+
+                <p>
+                    Completed Successfully
+                </p>
+
+                <div class="priority">
+                    {{ task[4] }} Priority
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+    <!-- DRAG DROP -->
+
+    <script>
+
+        const tasks =
+        document.querySelectorAll('.task');
+
+        const columns =
+        document.querySelectorAll('.column');
+
+        let draggedTask = null;
+
+        tasks.forEach(task => {
+
+            task.addEventListener(
+                'dragstart',
+                () => {
+
+                    draggedTask = task;
+
+                    task.classList.add('dragging');
+                }
+            );
+
+            task.addEventListener(
+                'dragend',
+                () => {
+
+                    task.classList.remove('dragging');
+                }
+            );
+
+        });
+
+        columns.forEach(column => {
+
+            column.addEventListener(
+                'dragover',
+                e => {
+
+                    e.preventDefault();
+                }
+            );
+
+            column.addEventListener(
+                'drop',
+                () => {
+
+                    column.appendChild(draggedTask);
+
+                    const taskId =
+                    draggedTask.dataset.id;
+
+                    const stage =
+                    column.dataset.stage;
+
+                    fetch(
+                        `/update_stage/${taskId}/${stage}`
+                    )
+                    .then(() => {
+
+                        location.reload();
+                    });
+
+                }
+            );
+
+        });
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Poppins',sans-serif;
+        }
+
+        body{
+
+            background:#f4ecff;
+
+            display:flex;
+
+            min-height:100vh;
+
+            overflow-x:hidden;
+        }
+
+        /* SIDEBAR */
+
+        .sidebar{
+
+            width:220px;
+
+            background:
+            linear-gradient(
+            180deg,
+            #4b0082,
+            #1a0033
+            );
+
+            position:fixed;
+
+            top:0;
+            left:0;
+            bottom:0;
+
+            padding:25px 18px;
+
+            overflow-y:auto;
+        }
+
+        .logo{
+
+            color:white;
+
+            font-size:42px;
+
+            font-weight:800;
+
+            line-height:1.2;
+
+            margin-bottom:45px;
+        }
+
+        .menu{
+
+            display:flex;
+
+            flex-direction:column;
+
+            gap:14px;
+        }
+
+        .menu a{
+
+            text-decoration:none;
+
+            color:white;
+
+            display:flex;
+
+            align-items:center;
+
+            gap:14px;
+
+            padding:16px 18px;
+
+            border-radius:16px;
+
+            font-size:18px;
+
+            font-weight:500;
+
+            transition:0.3s;
+        }
+
+        .menu a:hover,
+        .menu .active{
+
+            background:
+            linear-gradient(
+            90deg,
+            #a020ff,
+            #ff8dfb
+            );
+        }
+
+        /* MAIN */
+
+        .main{
+
+            margin-left:220px;
+
+            width:calc(100% - 220px);
+
+            padding:28px;
+        }
+
+        /* TOPBAR */
+
+        .topbar{
+
+            display:flex;
+
+            justify-content:space-between;
+
+            align-items:center;
+
+            margin-bottom:28px;
+        }
+
+        .search-box{
+
+            width:320px;
+
+            background:white;
+
+            padding:14px 18px;
+
+            border-radius:14px;
+
+            display:flex;
+
+            align-items:center;
+
+            gap:12px;
+
+            box-shadow:
+            0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .search-box input{
+
+            border:none;
+
+            outline:none;
+
+            width:100%;
+
+            font-size:14px;
+        }
+
+        .top-right{
+
+            display:flex;
+
+            align-items:center;
+
+            gap:18px;
+        }
+
+        .top-right i{
+
+            color:#4b0082;
+
+            cursor:pointer;
+
+            font-size:18px;
+        }
+
+        .user{
+
+            display:flex;
+
+            align-items:center;
+
+            gap:10px;
+        }
+
+        .user img{
+
+            width:38px;
+            height:38px;
+
+            border-radius:50%;
+
+            object-fit:cover;
+
+            border:2px solid #7b00ff;
+        }
+
+        .user h4{
+
+            color:#2d004d;
+
+            font-size:15px;
+        }
+
+        /* HEADER */
+
+        .header{
+
+            margin-bottom:26px;
+        }
+
+        .header h1{
+
+            font-size:48px;
+
+            color:#2d004d;
+
+            margin-bottom:8px;
+        }
+
+        .header p{
+
+            color:#777;
+
+            font-size:18px;
+        }
+
+        /* CARDS */
+
+        .cards{
+
+            display:grid;
+
+            grid-template-columns:
+            repeat(auto-fit,minmax(260px,1fr));
+
+            gap:22px;
+
+            margin-bottom:22px;
+        }
+
+        .card{
+
+            background:white;
+
+            border-radius:22px;
+
+            padding:24px;
+
+            display:flex;
+
+            justify-content:space-between;
+
+            align-items:center;
+
+            box-shadow:
+            0 6px 18px rgba(0,0,0,0.04);
+        }
+
+        .card h3{
+
+            color:#777;
+
+            margin-bottom:8px;
+
+            font-size:18px;
+        }
+
+        .card h1{
+
+            font-size:42px;
+
+            color:#2d004d;
+        }
+
+        .icon-box{
+
+            width:60px;
+            height:60px;
+
+            border-radius:18px;
+
+            display:flex;
+
+            justify-content:center;
+            align-items:center;
+
+            color:white;
+
+            font-size:24px;
+        }
+
+        .purple{
+
+            background:
+            linear-gradient(
+            135deg,
+            #7b00ff,
+            #ff2fcf
+            );
+        }
+
+        .green{
+
+            background:
+            linear-gradient(
+            135deg,
+            #27d79f,
+            #54ffd3
+            );
+        }
+
+        .orange{
+
+            background:
+            linear-gradient(
+            135deg,
+            #ff9800,
+            #ffcf33
+            );
+        }
+
+        /* CHARTS */
+
+        .charts{
+
+            display:grid;
+
+            grid-template-columns:2fr 1fr;
+
+            gap:22px;
+
+            margin-bottom:22px;
+        }
+
+        .chart-card{
+
+            background:white;
+
+            border-radius:22px;
+
+            padding:22px;
+
+            height:430px;
+
+            box-shadow:
+            0 6px 18px rgba(0,0,0,0.04);
+        }
+
+        .chart-card h2{
+
+            color:#2d004d;
+
+            margin-bottom:18px;
+
+            font-size:24px;
+        }
+
+        canvas{
+
+            width:100% !important;
+
+            height:320px !important;
+        }
+
+        /* BOTTOM */
+
+        .bottom{
+
+            display:grid;
+
+            grid-template-columns:2fr 1fr;
+
+            gap:22px;
+
+            margin-top:22px;
+        }
+
+        .recent,
+        .activity{
+
+            background:white;
+
+            border-radius:22px;
+
+            padding:24px;
+
+            box-shadow:
+            0 6px 18px rgba(0,0,0,0.04);
+        }
+
+        .recent-top{
+
+            display:flex;
+
+            justify-content:space-between;
+
+            align-items:center;
+
+            margin-bottom:22px;
+        }
+
+        .recent-top h2,
+        .activity h2{
+
+            color:#2d004d;
+
+            font-size:24px;
+        }
+
+        .recent-top a{
+
+            text-decoration:none;
+
+            color:#7b00ff;
+
+            font-weight:600;
+        }
+
+        table{
+
+            width:100%;
+
+            border-collapse:collapse;
+        }
+
+        table th{
+
+            text-align:left;
+
+            padding-bottom:16px;
+
+            color:#666;
+        }
+
+        table td{
+
+            padding:16px 0;
+
+            border-top:1px solid #ececec;
+        }
+
+        .status{
+
+            padding:8px 16px;
+
+            border-radius:20px;
+
+            color:white;
+
+            font-size:13px;
+
+            font-weight:600;
+        }
+
+        .completed{
+
+            background:#2ecc71;
+        }
+
+        .pending{
+
+            background:#ff9800;
+        }
+
+        .activity-item{
+
+            display:flex;
+
+            align-items:center;
+
+            gap:14px;
+
+            margin-bottom:24px;
+        }
+
+        .activity-icon{
+
+            width:40px;
+            height:40px;
+
+            border-radius:50%;
+
+            background:#f3e6ff;
+
+            display:flex;
+
+            justify-content:center;
+            align-items:center;
+
+            color:#7b00ff;
+        }
+
+        .activity-item p{
+
+            color:#444;
+
+            font-size:15px;
+        }
+
+        @media(max-width:1200px){
+
+            .charts,
+            .bottom{
+
+                grid-template-columns:1fr;
+            }
+        }
+
+        @media(max-width:900px){
+
+            .sidebar{
+
+                width:90px;
+            }
+
+            .logo{
+
+                font-size:22px;
+            }
+
+            .menu a span{
+
+                display:none;
+            }
+
+            .main{
+
+                margin-left:90px;
+
+                width:calc(100% - 90px);
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+
+    <div class="sidebar">
+
+        <div class="logo">
+
+            Task<br>System
+
+        </div>
+
+        <div class="menu">
+
+            <a href="/dashboard" class="active">
+
+                <i class="fa-solid fa-house"></i>
+
+                <span>Dashboard</span>
+
+            </a>
+
+            <a href="/tasks">
+
+                <i class="fa-solid fa-list-check"></i>
+
+                <span>Tasks</span>
+
+            </a>
+
+            <a href="/add_task">
+
+                <i class="fa-solid fa-plus"></i>
+
+                <span>Add Task</span>
+
+            </a>
+
+            <a href="/completed">
+
+                <i class="fa-solid fa-circle-check"></i>
+
+                <span>Completed</span>
+
+            </a>
+
+            <a href="/calendar">
+
+                <i class="fa-solid fa-calendar"></i>
+
+                <span>Calendar</span>
+
+            </a>
+
+            <a href="/reports">
+
+                <i class="fa-solid fa-chart-column"></i>
+
+                <span>Reports</span>
+
+            </a>
+
+            <a href="/profile">
+
+                <i class="fa-solid fa-user"></i>
+
+                <span>Profile</span>
+
+            </a>
+
+            <a href="/logout">
+
+                <i class="fa-solid fa-right-from-bracket"></i>
+
+                <span>Logout</span>
+
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- MAIN -->
+
+    <div class="main">
+
+        <!-- TOPBAR -->
+
+        <div class="topbar">
+
+            <div class="search-box">
+
+                <i class="fa-solid fa-magnifying-glass"></i>
+
+                <input type="text"
+                    placeholder="Search tasks, reports...">
+
+            </div>
+
+            <div class="top-right">
+
+                <i class="fa-solid fa-bell"></i>
+
+                <i class="fa-solid fa-envelope"></i>
+
+                <div class="user">
+
+                    <img src="{{ session['avatar'] }}">
+
+                    <h4>{{ user }}</h4>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- HEADER -->
+
+        <div class="header">
+
+            <h1>Dashboard</h1>
+
+            <p>
+
+                Monitor your productivity and task progress
+
+            </p>
+
+        </div>
+
+        <!-- CARDS -->
+
+        <div class="cards">
+
+            <div class="card">
+
+                <div>
+
+                    <h3>Total Tasks</h3>
+
+                    <h1>{{ total_tasks }}</h1>
+
+                </div>
+
+                <div class="icon-box purple">
+
+                    <i class="fa-solid fa-list-check"></i>
+
+                </div>
+
+            </div>
+
+            <div class="card">
+
+                <div>
+
+                    <h3>Completed Tasks</h3>
+
+                    <h1>{{ completed_tasks }}</h1>
+
+                </div>
+
+                <div class="icon-box green">
+
+                    <i class="fa-solid fa-check"></i>
+
+                </div>
+
+            </div>
+
+            <div class="card">
+
+                <div>
+
+                    <h3>Pending Tasks</h3>
+
+                    <h1>{{ pending_tasks }}</h1>
+
+                </div>
+
+                <div class="icon-box orange">
+
+                    <i class="fa-solid fa-clock"></i>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- CHARTS -->
+
+        <div class="charts">
+
+            <div class="chart-card">
+
+                <h2>Task Overview</h2>
+
+                <canvas id="lineChart"></canvas>
+
+            </div>
+
+            <div class="chart-card">
+
+                <h2>Tasks By Status</h2>
+
+                <canvas id="pieChart"></canvas>
+
+            </div>
+
+        </div>
+
+        <!-- BOTTOM -->
+
+        <div class="bottom">
+
+            <!-- RECENT TASKS -->
+
+            <div class="recent">
+
+                <div class="recent-top">
+
+                    <h2>Recent Tasks</h2>
+
+                    <a href="/tasks">
+
+                        View All
+
+                    </a>
+
+                </div>
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Task</th>
+                            <th>Due Date</th>
+                            <th>Status</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for task in recent_tasks %}
+
+                        <tr>
+
+                            <td>{{ task[0] }}</td>
+
+                            <td>{{ task[1] }}</td>
+
+                            <td>
+
+                                {% if task[2] == 'Completed' %}
+
+                                <span class="status completed">
+
+                                    Completed
+
+                                </span>
+
+                                {% else %}
+
+                                <span class="status pending">
+
+                                    Pending
+
+                                </span>
+
+                                {% endif %}
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+            <!-- ACTIVITY -->
+
+            <div class="activity">
+
+                <h2>Recent Activity</h2>
+
+                <br>
+
+                <div class="activity-item">
+
+                    <div class="activity-icon">
+
+                        <i class="fa-solid fa-circle-check"></i>
+
+                    </div>
+
+                    <p>
+
+                        Task status updated
+
+                    </p>
+
+                </div>
+
+                <div class="activity-item">
+
+                    <div class="activity-icon">
+
+                        <i class="fa-solid fa-plus"></i>
+
+                    </div>
+
+                    <p>
+
+                        New task added
+
+                    </p>
+
+                </div>
+
+                <div class="activity-item">
+
+                    <div class="activity-icon">
+
+                        <i class="fa-solid fa-chart-line"></i>
+
+                    </div>
+
+                    <p>
+
+                        Productivity:
+                        {% if total_tasks > 0 %}
+
+                        {{ ((completed_tasks / total_tasks) * 100)|round|int }}%
+
+                        {% else %}
+
+                        0%
+
+                        {% endif %}
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+     <script>
+
+/* REAL VALUES */
+
+const totalTasks =
+Number("{{ total_tasks }}");
+
+const completedTasks =
+Number("{{ completed_tasks }}");
+
+const pendingTasks =
+Number("{{ pending_tasks }}");
+
+/* LINE CHART */
+
+const ctx =
+document.getElementById('lineChart');
+
+const gradient =
+ctx.getContext('2d')
+.createLinearGradient(0,0,0,400);
+
+gradient.addColorStop(
+0,
+'rgba(123,44,255,0.4)'
+);
+
+gradient.addColorStop(
+1,
+'rgba(123,44,255,0)'
+);
+
+new Chart(ctx, {
+
+    type:'line',
+
+    data:{
+
+        labels:[
+
+            'Total Tasks',
+            'Completed',
+            'Pending'
+
+        ],
+
+        datasets:[{
+
+            label:'Task Analytics',
+
+            data:[
+
+                totalTasks,
+                completedTasks,
+                pendingTasks
+
+            ],
+
+            borderColor:'#7b2cff',
+
+            backgroundColor:gradient,
+
+            fill:true,
+
+            tension:0.45,
+
+            borderWidth:4,
+
+            pointBackgroundColor:'#7b2cff',
+
+            pointBorderColor:'#fff',
+
+            pointBorderWidth:3,
+
+            pointRadius:6,
+
+            pointHoverRadius:8
+        }]
+    },
+
+    options:{
+
+        responsive:true,
+
+        maintainAspectRatio:false,
+
+        plugins:{
+
+            legend:{
+
+                display:false
+            }
+        },
+
+        scales:{
+
+            y:{
+
+                beginAtZero:true,
+
+                grid:{
+
+                    color:'rgba(0,0,0,0.05)'
+                },
+
+                ticks:{
+
+                    stepSize:1
+                }
+            },
+
+            x:{
+
+                grid:{
+
+                    display:false
+                }
+            }
+        }
+    }
+
+});
+
+/* PIE CHART */
+
+new Chart(
+document.getElementById('pieChart'),
+
+{
+
+    type:'doughnut',
+
+    data:{
+
+        labels:[
+
+            'Completed',
+            'Pending'
+
+        ],
+
+        datasets:[{
+
+            data:[
+
+                completedTasks,
+                pendingTasks
+
+            ],
+
+            backgroundColor:[
+
+                '#36c96d',
+                '#f59e0b'
+
+            ],
+
+            borderWidth:3,
+
+            borderColor:'#fff'
+        }]
+    },
+
+    options:{
+
+        responsive:true,
+
+        maintainAspectRatio:false,
+
+        cutout:'60%',
+
+        plugins:{
+
+            legend:{
+
+                position:'top'
+            }
+        }
+    }
+
+});
+
+</script>
+
+</body>
+
+</html>
