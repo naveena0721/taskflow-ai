@@ -982,9 +982,106 @@ def logout():
 
     return redirect('/')
 
+
+# =========================
+# AI CHATBOT
+# =========================
+
+@app.route('/chatbot', methods=['POST'])
+def chatbot():
+
+    user_message = request.form['message'].lower()
+
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
+
+    # TOTAL TASKS
+    cursor.execute("SELECT COUNT(*) FROM tasks")
+    total_tasks = cursor.fetchone()[0]
+
+    # COMPLETED TASKS
+    cursor.execute(
+        "SELECT COUNT(*) FROM tasks WHERE status='Completed'"
+    )
+    completed_tasks = cursor.fetchone()[0]
+
+    # PENDING TASKS
+    cursor.execute(
+        "SELECT COUNT(*) FROM tasks WHERE status='Pending'"
+    )
+    pending_tasks = cursor.fetchone()[0]
+
+    conn.close()
+
+    # PRODUCTIVITY
+    productivity = 0
+
+    if total_tasks > 0:
+        productivity = int(
+            (completed_tasks / total_tasks) * 100
+        )
+
+    # =========================
+    # BOT RESPONSES
+    # =========================
+
+    if "hello" in user_message or "hi" in user_message:
+        reply = "Hello 👋 Welcome to TaskFlow AI"
+
+    elif "who are you" in user_message:
+        reply = "I'm TaskFlow AI Assistant 🤖"
+
+    elif "pending" in user_message:
+        reply = f"You currently have {pending_tasks} pending tasks."
+
+    elif "completed" in user_message:
+        reply = f"You completed {completed_tasks} tasks successfully."
+
+    elif "total" in user_message:
+        reply = f"Total tasks in your system: {total_tasks}"
+
+    elif "productivity" in user_message:
+        reply = f"Your productivity score is {productivity}% 🚀"
+
+    elif "motivate" in user_message:
+        reply = "Stay focused and complete one task at a time 💜"
+
+    elif "deadline" in user_message:
+        reply = "Prioritize urgent tasks first and avoid procrastination."
+
+    elif "dashboard" in user_message:
+        reply = "Open Dashboard from the sidebar 📊"
+
+    elif "calendar" in user_message:
+        reply = "Use Calendar to manage deadlines 📅"
+
+    elif "report" in user_message:
+        reply = "Reports show your productivity analytics 📈"
+
+    elif "help" in user_message:
+        reply = """
+Commands:
+- pending tasks
+- completed tasks
+- total tasks
+- productivity
+- dashboard
+- reports
+- calendar
+- motivation
+"""
+
+    else:
+        reply = "Sorry, I didn't understand that 🤖"
+
+    return reply
+
 # =========================
 # RUN APP
 # =========================
 
-if __name__ == '__main__':
-    app.run(debug=True)
+import os
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
