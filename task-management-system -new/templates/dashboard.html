@@ -549,6 +549,212 @@
             }
         }
 
+
+    /* =========================
+   CHATBOT
+========================= */
+
+.chatbot-container{
+
+    position:fixed;
+
+    bottom:110px;
+
+    right:25px;
+
+    width:350px;
+
+    height:500px;
+
+    background:white;
+
+    border-radius:25px;
+
+    overflow:hidden;
+
+    box-shadow:0 10px 40px rgba(0,0,0,0.18);
+
+    display:none;
+
+    flex-direction:column;
+
+    z-index:9999;
+}
+
+/* HEADER */
+
+.chat-header{
+
+    height:70px;
+
+    padding:0 22px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    color:white;
+
+    font-size:24px;
+
+    font-weight:700;
+
+    background:linear-gradient(
+        135deg,
+        #7b00ff,
+        #ff7bff
+    );
+}
+
+/* CLOSE */
+
+.chat-close{
+
+    cursor:pointer;
+
+    font-size:28px;
+}
+
+/* BODY */
+
+.chat-body{
+
+    flex:1;
+
+    padding:18px;
+
+    overflow-y:auto;
+
+    background:#f7f4ff;
+}
+
+/* USER */
+
+.user-message{
+
+    background:linear-gradient(
+        135deg,
+        #7b00ff,
+        #ff7bff
+    );
+
+    color:white;
+
+    padding:14px 18px;
+
+    border-radius:18px;
+
+    margin-bottom:15px;
+
+    margin-left:auto;
+
+    width:fit-content;
+
+    max-width:75%;
+}
+
+/* BOT */
+
+.bot-message{
+
+    background:white;
+
+    color:#222;
+
+    padding:14px 18px;
+
+    border-radius:18px;
+
+    margin-bottom:15px;
+
+    width:fit-content;
+
+    max-width:75%;
+
+    box-shadow:0 3px 10px rgba(0,0,0,0.08);
+}
+
+/* FOOTER */
+
+.chat-footer{
+
+    display:flex;
+
+    background:white;
+
+    border-top:1px solid #eee;
+}
+
+.chat-footer input{
+
+    flex:1;
+
+    height:65px;
+
+    border:none;
+
+    outline:none;
+
+    padding:0 18px;
+
+    font-size:15px;
+}
+
+.chat-footer button{
+
+    width:75px;
+
+    border:none;
+
+    color:white;
+
+    cursor:pointer;
+
+    font-size:22px;
+
+    background:linear-gradient(
+        135deg,
+        #7b00ff,
+        #ff7bff
+    );
+}
+
+/* FLOAT BUTTON */
+
+.chatbot-btn{
+
+    position:fixed;
+
+    right:25px;
+
+    bottom:25px;
+
+    width:70px;
+
+    height:70px;
+
+    border:none;
+
+    border-radius:50%;
+
+    color:white;
+
+    cursor:pointer;
+
+    font-size:28px;
+
+    z-index:9999;
+
+    box-shadow:0 10px 25px rgba(123,0,255,0.3);
+
+    background:linear-gradient(
+        135deg,
+        #7b00ff,
+        #ff7bff
+    );
+}
     </style>
 
 </head>
@@ -1094,6 +1300,128 @@ document.getElementById('pieChart'),
     }
 
 });
+
+</script>
+
+<!-- =========================
+     CHATBOT
+========================= -->
+
+<button class="chatbot-btn" onclick="openChat()">
+
+    <i class="fa-solid fa-robot"></i>
+
+</button>
+
+<div class="chatbot-container" id="chatbot">
+
+    <!-- HEADER -->
+
+    <div class="chat-header">
+
+        <span>TaskFlow AI</span>
+
+        <span class="chat-close" onclick="closeChat()">
+            ×
+        </span>
+
+    </div>
+
+    <!-- BODY -->
+
+    <div class="chat-body" id="chat-body">
+
+        <div class="bot-message">
+            Hello 👋 I'm TaskFlow AI Assistant
+        </div>
+
+    </div>
+
+    <!-- FOOTER -->
+
+    <div class="chat-footer">
+
+        <input
+            type="text"
+            id="chat-input"
+            placeholder="Ask something..."
+        >
+
+        <button onclick="sendMessage()">
+
+            <i class="fa-solid fa-paper-plane"></i>
+
+        </button>
+
+    </div>
+
+</div>
+
+<script>
+
+function openChat(){
+
+    document.getElementById("chatbot").style.display="flex";
+}
+
+function closeChat(){
+
+    document.getElementById("chatbot").style.display="none";
+}
+
+function sendMessage(){
+
+    let input =
+    document.getElementById("chat-input");
+
+    let message = input.value.trim();
+
+    if(message === "") return;
+
+    let chatBody =
+    document.getElementById("chat-body");
+
+    // USER MESSAGE
+
+    chatBody.innerHTML += `
+    <div class="user-message">
+        ${message}
+    </div>
+    `;
+
+    // BOT REPLY
+
+    fetch("/chatbot",{
+
+        method:"POST",
+
+        headers:{
+            "Content-Type":
+            "application/x-www-form-urlencoded"
+        },
+
+        body:
+        "message=" +
+        encodeURIComponent(message)
+
+    })
+
+    .then(response => response.text())
+
+    .then(data => {
+
+        chatBody.innerHTML += `
+        <div class="bot-message">
+            ${data}
+        </div>
+        `;
+
+        chatBody.scrollTop =
+        chatBody.scrollHeight;
+    });
+
+    input.value="";
+}
 
 </script>
 
